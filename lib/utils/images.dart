@@ -7,5 +7,5 @@ class Assets {
   static const String splashLogo = '${Constants.kImageDir}splash_logo.png';
 
   //SVG Image
-  static const String home = '${Constants.kIConDir}home.svg';
+  static const String close = '${Constants.kIConDir}close.svg';
 }

@@ -36,6 +36,10 @@ class AuthRepo {
   bool isLoggedIn() {
     return prefs.containsKey(Constants.token);
   }
+  //get user email
+  String getUserEmail() {
+    return prefs.getString(Constants.userEmail) ?? '';
+  }
   //Clear Shared data
   bool clearSharedData() {
     prefs.remove(Constants.token);

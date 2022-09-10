@@ -93,6 +93,9 @@ class AuthController extends GetxController {
   bool isLoggedIn() {
     return authRepo.isLoggedIn();
   }
+  String getUserEmail() {
+    return authRepo.getUserEmail();
+  }
 
   //clear shared token
   bool clearSharedData() {

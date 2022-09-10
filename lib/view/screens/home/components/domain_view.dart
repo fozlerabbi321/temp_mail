@@ -5,7 +5,8 @@ import '../../../../controller/domain_controller.dart';
 import '../../../../utils/colors.dart';
 import '../../../../utils/size_config.dart';
 import '../../../shared/shared/custom_bottom_loader.dart';
-import '../../../shared/shared/custom_loader.dart';
+import '../../../shared/shared/not_found.dart';
+import '../../../shared/widgets/custom_shimmer.dart';
 import '../widgets/domain_list_view.dart';
 
 class DomainView extends StatelessWidget {
@@ -19,6 +20,9 @@ class DomainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //load data
+    _loadData(false);
+
     ScrollController scrollController = ScrollController();
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
@@ -26,8 +30,7 @@ class DomainView extends StatelessWidget {
           !Get.find<DomainController>().isLoading) {
         int pageSize = Get.find<DomainController>().popularPageSize;
         if (Get.find<DomainController>().domainList.length < pageSize) {
-          Get.find<DomainController>()
-              .setOffset(Get.find<DomainController>().offset + 1);
+          Get.find<DomainController>().setOffset(Get.find<DomainController>().offset + 1);
           log('end page');
           Get.find<DomainController>().showBottomLoader();
           Get.find<DomainController>().getDomainList(
@@ -43,14 +46,9 @@ class DomainView extends StatelessWidget {
     return GetBuilder<DomainController>(builder: (domainController) {
       return SizedBox(
         child: domainController.isShimmerLoading
-            ? const Center(child: CustomLoader())
+            ? CustomShimmer.domainListShimmer()
             : domainController.domainList.isEmpty
-                ? Center(
-                    child: Text(
-                      'no data available'.tr,
-                      style: Theme.of(context).textTheme.headline3,
-                    ),
-                  )
+                ? const NotFound()
                 : RefreshIndicator(
                     color: kPrimaryColor,
                     backgroundColor: Theme.of(context).cardColor,

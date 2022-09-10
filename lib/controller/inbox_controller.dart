@@ -1,18 +1,21 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:get/get.dart';
-import 'package:tm_mail/models/rp_domain_model.dart';
-import 'package:tm_mail/services/repository/domain_repo.dart';
+import 'package:tm_mail/models/rp_message_model.dart';
+import 'package:tm_mail/services/repository/inbox_repo.dart';
 import '../services/api/api_checker.dart';
 import '../utils/style.dart';
 
+class InboxController extends GetxController {
+  final InboxRepo inboxRepo;
 
-class DomainController extends GetxController {
-  final DomainRepo domainRepo;
-  DomainController({required this.domainRepo,});
+  InboxController({
+    required this.inboxRepo,
+  });
 
   //Init model
-  List<DomainList> _domainList = [];
+  List<MessageList> _messageList = [];
+
   //Init
   bool _isLoading = false;
   bool _isShimmerLoading = true;
@@ -21,7 +24,7 @@ class DomainController extends GetxController {
   List<String> _offsetList = [];
   int _offset = 1;
 
-  List<DomainList> get domainList => _domainList;
+  List<MessageList> get messageList => _messageList;
 
   bool get isLoading => _isLoading;
 
@@ -37,9 +40,8 @@ class DomainController extends GetxController {
     _offset = offset;
   }
 
-
-  //get domain list
-  Future<void> getDomainList(
+  //get message list
+  Future<void> getMessageList(
     String offset,
     bool reload, {
     String? search,
@@ -48,7 +50,7 @@ class DomainController extends GetxController {
       _offsetList = [];
       _offset = 1;
       if (reload) {
-        _domainList = [];
+        _messageList = [];
         _isShimmerLoading = true;
       }
       update();
@@ -56,12 +58,14 @@ class DomainController extends GetxController {
     if (!_offsetList.contains(offset)) {
       _offsetList.add(offset);
 
-      final response = await domainRepo.fetchDomain(_offset,);
+      final response = await inboxRepo.fetchMessageList(
+        _offset,
+      );
       if (response.statusCode == 200) {
-        var posts = RpDomainModel.fromJson(jsonDecode(response.body));
+        var posts = RpMessageModel.fromJson(jsonDecode(response.body));
         //success
         if (offset == '1') {
-          _domainList = [];
+          _messageList = [];
         }
         if (response.body.isEmpty) {
           _isLoading = false;
@@ -69,7 +73,7 @@ class DomainController extends GetxController {
           update();
         } else {
           log('=================>> add log');
-          _domainList.addAll(posts.domainList!);
+          _messageList.addAll(posts.messageList!);
           _popularPageSize = posts.totalItems!;
           _isLoading = false;
           _isShimmerLoading = false;
