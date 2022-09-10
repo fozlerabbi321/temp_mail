@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:get/get.dart';
-import 'package:tm_mail/models/rp_domain_model.dart';
+import 'package:tm_mail/main.dart';
+import 'package:tm_mail/models/domain_model.dart';
 import 'package:tm_mail/services/repository/domain_repo.dart';
+import '../models/rp_domain_list.dart';
 import '../services/api/api_checker.dart';
-import '../utils/style.dart';
+import '../utils/constants.dart';
 
 
 class DomainController extends GetxController {
@@ -12,94 +14,104 @@ class DomainController extends GetxController {
   DomainController({required this.domainRepo,});
 
   //Init model
-  List<DomainList> _domainList = [];
+  List<RpDomainList> _domainList = [];
+  final List<DomainModel> _localDomainList = [];
   //Init
   bool _isLoading = false;
-  bool _isShimmerLoading = true;
-  bool _noDataAvailable = true;
-  late int _popularPageSize;
-  List<String> _offsetList = [];
-  int _offset = 1;
-
-  List<DomainList> get domainList => _domainList;
+  bool _isShimmerLoading = false;
+  List<RpDomainList> get domainList => _domainList;
+  List<DomainModel> get localDomainList => _localDomainList;
 
   bool get isLoading => _isLoading;
 
   bool get isShimmerLoading => _isShimmerLoading;
 
-  bool get noDataAvailable => _noDataAvailable;
-
-  int get popularPageSize => _popularPageSize;
-
-  int get offset => _offset;
-
-  void setOffset(int offset) {
-    _offset = offset;
-  }
-
 
   //get domain list
-  Future<void> getDomainList(
-    String offset,
-    bool reload, {
-    String? search,
-  }) async {
-    if (offset == '1' || reload) {
-      _offsetList = [];
-      _offset = 1;
-      if (reload) {
-        _domainList = [];
-        _isShimmerLoading = true;
-      }
+  Future<void> getDomainList(bool reload) async {
+    if (reload) {
+      _domainList = [];
+      _isShimmerLoading = true;
       update();
-    }
-    if (!_offsetList.contains(offset)) {
-      _offsetList.add(offset);
 
-      final response = await domainRepo.fetchDomain(_offset,);
+      final response = await domainRepo.fetchDomain();
       if (response.statusCode == 200) {
-        var posts = RpDomainModel.fromJson(jsonDecode(response.body));
-        //success
-        if (offset == '1') {
-          _domainList = [];
-        }
+        List<dynamic> body = jsonDecode(response.body);
+        List<RpDomainList> posts = body
+            .map(
+              (dynamic item) => RpDomainList.fromJson(item),
+        )
+            .toList();
         if (response.body.isEmpty) {
           _isLoading = false;
           _isShimmerLoading = false;
           update();
         } else {
           log('=================>> add log');
-          _domainList.addAll(posts.domainList!);
-          _popularPageSize = posts.totalItems!;
+          _domainList.addAll(posts);
+          for(var domain in posts){
+            insertDomains(domain);
+          }
           _isLoading = false;
           _isShimmerLoading = false;
+          //add check if exists local database domain data
+          await prefs.setBool(Constants.domainExists, true);
           update();
         }
       } else {
         ApiChecker.checkApi(response);
       }
-    } else {
-      if (isLoading) {
-        _isLoading = false;
-        update();
-      }
+    }else{
+      getLocalDomainsList();
+    }
+
+
+  }
+
+  //add local database domain data
+  void insertDomains(RpDomainList domain) async {
+    var dataList = await domainRepo.getLocalDomainsList();
+    _localDomainList.assignAll(dataList);
+    //check if exists
+    var contain = _localDomainList.where((element) => element.id == domain.id);
+    if (contain.isEmpty) {
+      //value not exists
+      log('domain value not exists ${domain.id ?? 0}');
+      //add model
+      DomainModel model = DomainModel(
+        id: domain.id,
+        domain: domain.domain,
+        isActive: (domain.isActive ?? false) ? 0 : 1,
+        isPrivate: (domain.isPrivate ?? false) ? 0 : 1,
+        createdAt: domain.createdAt,
+        updatedAt: domain.updatedAt,
+      );
+      //insert domain domain 
+      domainRepo.insertDomains(model);
+
+      getLocalDomainsList();
+    }
+  }
+  //Get  all local domain list
+  void getLocalDomainsList() async {
+    try {
+      _isLoading = true;
+      var domainList = await domainRepo.getLocalDomainsList();
+      _localDomainList.assignAll(domainList);
+      update();
+    } finally {
+      _isLoading = false;
+      update();
     }
   }
 
-  void showBottomLoader() {
-    _isLoading = true;
-    update();
-  }
-
-  void showShimmerLoader() {
-    _isShimmerLoading = true;
-    update();
-  }
-
-  void noDataAvailableUpdate() {
-    if (_noDataAvailable) {
-      showCustomSnackBar('No more data available'.tr);
-      _noDataAvailable = false;
+  void deleteAllDomains() async {
+    try {
+      _isLoading = false;
+      await domainRepo.deleteAllDomains();
+      getLocalDomainsList();
+    } finally {
+      _isLoading = false;
       update();
     }
   }

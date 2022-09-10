@@ -15,7 +15,13 @@ class Constants{
   //api request time out
   static const int timeoutRequest = 60;
 
+  //sql db data
+  static const String dbName = '$appName.db';
+  static const String tableNameDomains = 'domains';
+  static const int dbVersion = 1;
+
   //Shared key
+  static const String domainExists = 'domain_exists';
   static const String theme = 'theme';
   static const String token = 'token';
   static const String userId = 'user_id';

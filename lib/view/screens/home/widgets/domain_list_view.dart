@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tm_mail/models/rp_domain_model.dart';
+import 'package:tm_mail/models/domain_model.dart';
 import 'package:tm_mail/utils/style.dart';
 
 class DomainListView extends StatelessWidget {
-  final List<DomainList> domainList;
+  final List<DomainModel> domainList;
 
   const DomainListView({
     Key? key,
