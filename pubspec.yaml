@@ -17,10 +17,8 @@ dependencies:
   google_fonts: ^3.0.1
   shared_preferences: ^2.0.15
   http: ^0.13.3
-  flutter_svg: ^1.1.4
   get: ^4.6.5
   get_storage: ^2.0.3
-  intl: ^0.17.0
   shimmer: ^2.0.0
 
 dev_dependencies:
@@ -42,4 +40,3 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/icons/

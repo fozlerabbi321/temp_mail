@@ -10,7 +10,6 @@ class Constants{
   static const String kCreateAccountUrl = '/accounts';
   static const String kMessageListUrl = '/messages';
   /// Api end point end
-  static const String kIConDir = 'assets/icons/';
   static const String kImageDir = 'assets/images/';
   static const String kFlagDir = 'assets/flags/';
   //api request time out
