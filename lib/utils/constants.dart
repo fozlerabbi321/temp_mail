@@ -17,5 +17,7 @@ class Constants{
   //Shared key
   static const String theme = 'theme';
   static const String token = 'token';
+  static const String userId = 'user_id';
+  static const String userEmail = 'user_email';
 
 }

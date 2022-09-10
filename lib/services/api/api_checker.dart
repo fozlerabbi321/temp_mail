@@ -5,8 +5,6 @@ import '../../utils/style.dart';
 class ApiChecker {
   static void checkApi(http.Response response) {
     if (response.statusCode == 401) {
-     // Get.find<AuthController>().clearSharedData();
-    //  Get.to(() => LogInScreen(),);
       final responseJson = jsonDecode(response.body);
       if (responseJson['message'] != null) {
         showCustomSnackBar(responseJson['message']);

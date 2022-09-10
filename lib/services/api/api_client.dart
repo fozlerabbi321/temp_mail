@@ -15,7 +15,9 @@ class ApiClient {
   final Map<String, String> _mainHeaders = {
     'Accept': 'application/json',
   };
-
+/*  final Map<String, String> _mainHeaders = {
+    'Cache-Control': 'no-cache',
+  };*/
 
   Future<http.Response> getData(
     String uri, {
@@ -68,4 +70,6 @@ class ApiClient {
     http.Response data = response;
     return data;
   }
+
+  //{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NjI3NDYxODYsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6Im9pYnJ3ZGF5eGxvZWNqQGVtZXJnZW50dmlsbGFnZS5vcmciLCJpZCI6IjYzMWEyNTU4MWM1OGZmYWM0YzBmOTFiMyIsIm1lcmN1cmUiOnsic3Vic2NyaWJlIjpbIi9hY2NvdW50cy82MzFhMjU1ODFjNThmZmFjNGMwZjkxYjMiXX19.pSS4tIx1Yk1mitdouBY03qZUe3_JAtC49z0NXmDBIU2Qu6gWde6mnuOjHI-VIxcMHC4l6rXXWgduyrJk8bwd5w","id":"631a25581c58ffac4c0f91b3"}
 }

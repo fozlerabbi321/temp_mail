@@ -9,7 +9,6 @@ import 'helper/localization_helper.dart';
 import 'theme/dark_theme.dart';
 import 'theme/light_theme.dart';
 import 'view/screens/splash/splash_screen.dart';
-
 late SharedPreferences prefs;
 
 void main() async {

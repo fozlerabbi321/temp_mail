@@ -72,6 +72,7 @@ class LoginScreen extends StatelessWidget {
                       title: 'Login'.tr,
                       textColor: Colors.white,
                       onPress: () async {
+                        authController.userLogin(context);
                       },
                     ),
 

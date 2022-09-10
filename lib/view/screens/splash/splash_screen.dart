@@ -9,6 +9,7 @@ import '../../../main.dart';
 import '../../../utils/images.dart';
 import '../../../utils/size_config.dart';
 import '../auth/login_screen.dart';
+import '../home/home_screen.dart';
 
 
 class SplashScreen extends StatefulWidget {
@@ -48,8 +49,10 @@ class SplashScreenState extends State<SplashScreen> with SingleTickerProviderSta
 
   void navigation() async {
     if(prefs.containsKey(Constants.token)){
+      Get.offAll(() =>  HomeScreen());
     }else{
      Get.offAll(() => const LoginScreen());
+
     }
   }
 
