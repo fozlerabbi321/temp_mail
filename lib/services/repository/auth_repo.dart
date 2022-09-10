@@ -13,6 +13,10 @@ class AuthRepo {
     return await apiClient.postData(Constants.kLoginUrl, body: body, headers: headerJsonBody);
   }
 
+  //create account request
+  Future<Response> createAccount(dynamic body) async {
+    return await apiClient.postData(Constants.kCreateAccountUrl, body: body, headers: headerJsonBody);
+  }
   //Save User Info Shared
   Future<void> saveUserInfoShared({
     required String token,

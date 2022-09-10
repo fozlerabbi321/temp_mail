@@ -58,6 +58,7 @@ class LoginScreen extends StatelessWidget {
                     InputFormWidget(
                       fieldController: authController.passwordController,
                       hintText: 'Password'.tr,
+                      isProtected: true,
                       prefixIcon: Icon(
                         Icons.lock_outline,
                         size: 18,

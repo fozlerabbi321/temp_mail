@@ -7,6 +7,7 @@ class Constants{
   /// Api end point start
   static const String kLoginUrl = '/token';
   static const String kDomainListUrl = '/domains';
+  static const String kCreateAccountUrl = '/accounts';
   /// Api end point end
   static const String kIConDir = 'assets/icons/';
   static const String kImageDir = 'assets/images/';

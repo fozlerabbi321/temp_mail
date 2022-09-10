@@ -20,6 +20,7 @@ class AuthController extends GetxController {
   TextEditingController get passwordController=> _passwordController;
 
 
+  //login request
   Future<void> userLogin(BuildContext context) async {
     if (_emailController.text.isEmpty) {
       showCustomSnackBar('Please enter email');
@@ -44,6 +45,8 @@ class AuthController extends GetxController {
         Get.back();
         //open new class
         Get.offAll(() => HomeScreen());
+        //show success dialog
+        showCustomSnackBar('Login Successful!'.tr, isError:  false);
       } else {
         //Dialog dismiss
         Get.back();
@@ -53,6 +56,39 @@ class AuthController extends GetxController {
 
   }
 
+  //create account request
+  Future<void> createAccount(BuildContext context) async {
+    if (_emailController.text.isEmpty) {
+      showCustomSnackBar('Please enter email');
+    } else if (_passwordController.text.isEmpty) {
+      showCustomSnackBar('Please enter your password!');
+    }else{
+      Get.back();
+      //added progress dialog
+      progressDialog(context);
+      //add request body
+      final body = {
+        "address": _emailController.text,
+        "password": _passwordController.text
+      };
+      final response = await authRepo.createAccount(jsonEncode(body));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        //clear text filed
+        _emailController.clear();
+        _passwordController.clear();
+        //Dialog dismiss
+        Get.back();
+        //show success dialog
+        showCustomSnackBar('Account Create Successfully!'.tr, isError:  false);
+
+      } else {
+        //Dialog dismiss
+        Get.back();
+        ApiChecker.checkApi(response);
+      }
+    }
+
+  }
   //user login check
   bool isLoggedIn() {
     return authRepo.isLoggedIn();

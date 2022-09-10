@@ -8,6 +8,8 @@ class ApiChecker {
       final responseJson = jsonDecode(response.body);
       if (responseJson['message'] != null) {
         showCustomSnackBar(responseJson['message']);
+      } else if (responseJson['violations'].isNotEmpty && responseJson['violations'][0] != null) {
+        showCustomSnackBar(responseJson['violations'][0]['message'] ?? '');
       } else {
         showCustomSnackBar(responseJson['error']);
       }
@@ -15,6 +17,8 @@ class ApiChecker {
       final responseJson = jsonDecode(response.body);
       if (responseJson['message'] != null) {
         showCustomSnackBar(responseJson['message']);
+      } else if (responseJson['violations'].isNotEmpty && responseJson['violations'][0] != null) {
+        showCustomSnackBar(responseJson['violations'][0]['message'] ?? '');
       } else {
         showCustomSnackBar(responseJson['error']);
       }
