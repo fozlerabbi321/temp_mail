@@ -1,16 +1,28 @@
 # tm_mail
 
-A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+- [Apk Google Drive Link](https://drive.google.com/file/d/13eWjNwRjtvUytLv96omBhkjs4JDEtk9t/view?usp=sharing)
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Use this Library
+- google_fonts
+- shared_preferences - login data save
+- http - data fetch from server
+- get - dependency injection, State management, Navigator Management and Theme Controller
+- shimmer - loading shimmer added
+- sqflite - save local database domain list
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screenshot
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/fozlerabbi321/flutter_dashboard/master/screenshot/img1.jpg" width="240"/>
+<img src="https://raw.githubusercontent.com/fozlerabbi321/flutter_dashboard/master/screenshot/img2.jpg" width="240"/>
+<img src="https://raw.githubusercontent.com/fozlerabbi321/flutter_dashboard/master/screenshot/img3.jpg" width="240"/>
+</p>
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/fozlerabbi321/flutter_dashboard/master/screenshot/img4.jpg" width="240"/>
+<img src="https://raw.githubusercontent.com/fozlerabbi321/flutter_dashboard/master/screenshot/img5.jpg" width="240"/>
+</p>
